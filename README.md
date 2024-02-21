@@ -2,8 +2,8 @@
 
 It is recommended to use virtual environment to ensure no problem with package version:
 
-python3 -m venv venv
-source venv/bin/activate
+1. python3 -m venv venv
+2. source venv/bin/activate
 
 
 _Steps: _
