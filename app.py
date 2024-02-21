@@ -73,9 +73,9 @@ def upload_files():
     # Optionally remove the upload directory after processing all files
     os.rmdir(upload_dir)
     
-    results_data = jsonify({'results': results})
+    results_data = {'results': results}
     results_ = filter_results(results_data)
-    return results_
+    return jsonify(results_)
     
 
 # Function to extract predicted labels from the recognized text
