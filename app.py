@@ -66,13 +66,15 @@ def upload_files():
 
             # Store the filename and the recognized texts as a pair
             results.append({'filename': filename, 'recognized_labels': recognized_labels})
-
+            
             # Optionally remove the file after processing
             os.remove(file_path)
 
     # Optionally remove the upload directory after processing all files
     os.rmdir(upload_dir)
 
+    
+    results = filter_results(results)
     return jsonify({'results': results})
 
 # Function to extract predicted labels from the recognized text
@@ -92,5 +94,23 @@ def extract_predicted_labels(recognized_text):
             predicted_labels.append(match.group(1).strip())
     return predicted_labels  # Return all labels
 
+def filter_results(results_data):
+    # Create a new list to hold the filtered results
+    filtered_results = []
+
+    # Iterate through each item in the original results list
+    for item in results_data['results']:
+        # Get the filename
+        filename = item['filename']
+        
+        # Filter out 'predicted_labels' from the recognized_labels list
+        recognized_labels = [label for label in item['recognized_labels'] if label != 'predicted_labels']
+        
+        # Append the filtered data to the new list
+        filtered_results.append({'filename': filename, 'recognized_labels': recognized_labels})
+
+    # Return the new list as part of a dictionary
+    return {'results': filtered_results}
+    
 if __name__ == '__main__':
     app.run(debug=True)
